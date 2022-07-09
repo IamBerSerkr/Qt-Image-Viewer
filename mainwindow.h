@@ -8,6 +8,7 @@
 #include <QVector>
 #include <QDockWidget>
 #include <QFileDialog>
+#include <qimageviewer.h>
 
 #include <QDebug>
 

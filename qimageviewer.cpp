@@ -17,10 +17,13 @@ QImageViewer::~QImageViewer()
 
 void QImageViewer::initUI()
 {
+    // set up check box
     fitToScreenCheckBox = new QCheckBox(this),
     fitToScreenCheckBox->setText(tr("Fit to Screen"));
     fitToScreenCheckBox->setCheckable(true);
     fitToScreenCheckBox->setChecked(false);
+    connect(fitToScreenCheckBox, SIGNAL(stateChanged(int)),
+                                 this, SLOT(checkFittingOption(int)));
 
     imageLabel = new QLabel(this);
     imageLabel->setBackgroundRole(QPalette::Base);
@@ -57,7 +60,32 @@ void QImageViewer::showImage()
 {
     imageLabel->setPixmap(QPixmap::fromImage(image));
     scrollArea->setVisible(true);
-    imageLabel->adjustSize();
+
+    if (!fitToScreenCheckBox->isChecked())
+    {
+        imageLabel->adjustSize();
+    }
+
+    return;
+}
+
+void QImageViewer::checkFittingOption(int state)
+{
+    if (Qt::Checked == state)
+    {
+        qDebug() << "checked!";
+        scrollArea->setWidgetResizable(true);
+    }
+    else if (Qt::Unchecked == state)
+    {
+        qDebug() << "unchecked!";
+        scrollArea->setWidgetResizable(false);
+        imageLabel->adjustSize();
+    }
+    else
+    {
+        qDebug() << ")-: Something went wrong! :-(";
+    }
 
     return;
 }

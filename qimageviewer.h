@@ -21,6 +21,9 @@ private:
     void loadImage(const QString& path);
     void showImage();
 
+private slots:
+    void checkFittingOption(int);
+
 private:
     QVBoxLayout *verticalLayout;
 
