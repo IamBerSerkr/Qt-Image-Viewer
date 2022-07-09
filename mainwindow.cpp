@@ -63,11 +63,14 @@ void MainWindow::openImage()
     readImagePath(path);
 
     qDebug() << path;
-    hui
     QDockWidget *newDockWidget = new QDockWidget(this);
     newDockWidget->setWidget(new QImageViewer(path, this));
     imageViewers.push_back(newDockWidget);
 
+    // temporary solution
+    addDockWidget(Qt::LeftDockWidgetArea,
+                  static_cast<QDockWidget*>(imageViewers.back()));
     return;
 }
+
 
