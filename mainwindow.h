@@ -25,6 +25,7 @@ private:
     void createAction();
     void readImagePath(QString&);
     void initImageFileDialog(QFileDialog&);
+    QString getImageNameFromPath(const QString&);
 
 private slots:
     void openImage();

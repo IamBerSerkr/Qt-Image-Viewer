@@ -43,6 +43,12 @@ void MainWindow::initImageFileDialog(QFileDialog& dialog)
     return;
 }
 
+QString MainWindow::getImageNameFromPath(const QString& path)
+{
+    QStringList list = path.split("/");
+    return list.back();
+}
+
 void MainWindow::readImagePath(QString& path)
 {
     QFileDialog dialog(this, tr("Open File"));
@@ -62,14 +68,26 @@ void MainWindow::openImage()
     QString path;
     readImagePath(path);
 
+    QString imageName = getImageNameFromPath(path);
+
     qDebug() << path;
     QDockWidget *newDockWidget = new QDockWidget(this);
     newDockWidget->setWidget(new QImageViewer(path, this));
-    imageViewers.push_back(newDockWidget);
+    newDockWidget->setWindowTitle(imageName);
 
-    // temporary solution
+
     addDockWidget(Qt::LeftDockWidgetArea,
-                  static_cast<QDockWidget*>(imageViewers.back()));
+                  static_cast<QDockWidget*>(newDockWidget));
+
+    if (1 <= imageViewers.size())
+    {
+        tabifyDockWidget(newDockWidget,
+                         static_cast<QDockWidget*>(imageViewers.back()));
+        newDockWidget->setVisible(true);
+        newDockWidget->raise();
+    }
+
+    imageViewers.push_back(newDockWidget);
     return;
 }
 
